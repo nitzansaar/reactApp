@@ -1,0 +1,6 @@
+mkdir -p src/components/Chat
+mkdir -p src/components/Layout
+mkdir -p src/services
+mkdir -p src/context
+mkdir -p src/hooks
+mkdir -p src/utils 
