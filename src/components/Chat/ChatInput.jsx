@@ -39,20 +39,27 @@ const Button = styled.button`
 
 function ChatInput() {
   const [input, setInput] = useState('');
-  const { messages, setMessages, isLoading, setIsLoading, setError } = useChat();
+  const { 
+    messages, 
+    setMessages, 
+    isLoading, 
+    setIsLoading, 
+    setError 
+  } = useChat();
   const { settings, currentTheme } = useSettings();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!input.trim() || isLoading) return;
 
-    const userMessage = { role: 'user', content: input };
-    setMessages([...messages, userMessage]);
-    setInput('');
-    setIsLoading(true);
-
+    const userMessage = { role: 'user', content: input.trim() };
+    
     try {
-      const response = await sendMessage(input, settings, messages);
+      setIsLoading(true);
+      setMessages([...messages, userMessage]);
+      setInput('');
+      
+      const response = await sendMessage(input.trim(), settings, messages);
       setMessages(prev => [...prev, response]);
     } catch (error) {
       setError('Failed to send message. Please try again.');

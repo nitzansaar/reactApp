@@ -1,6 +1,7 @@
 import { useSettings } from './context/SettingsContext';
 import styled from '@emotion/styled';
 import ChatContainer from './components/Chat/ChatContainer';
+import ConversationList from './components/Conversations/ConversationList';
 import './App.css';
 
 const AppWrapper = styled.div`
@@ -8,6 +9,7 @@ const AppWrapper = styled.div`
   color: ${props => props.theme.text};
   min-height: 100vh;
   padding: 2rem;
+  padding-left: 270px;
 `;
 
 const Title = styled.h1`
@@ -22,6 +24,7 @@ function App() {
     <AppWrapper theme={currentTheme}>
       <Title theme={currentTheme}>OpenAI Chatbot</Title>
       <ChatContainer />
+      <ConversationList />
     </AppWrapper>
   );
 }

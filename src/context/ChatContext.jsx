@@ -1,31 +1,59 @@
-import { createContext, useState, useContext } from 'react';
-import { useChatHistory } from '../hooks/useChatHistory';
+import { createContext, useContext, useState } from 'react';
+import { useConversations } from './ConversationsContext';
 
 const ChatContext = createContext();
 
 export function ChatProvider({ children }) {
-  const [messages, setMessages] = useChatHistory();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  
+  const { 
+    conversations, 
+    activeConversationId,
+    setConversations 
+  } = useConversations();
 
-  const clearError = () => setError(null);
-  const clearHistory = () => {
-    setMessages([{ role: 'assistant', content: 'Hello! How can I assist you today?' }]);
-    localStorage.removeItem('chat_history');
+  const activeConversation = conversations[activeConversationId] || {
+    id: 'default',
+    title: 'New Conversation',
+    messages: []
   };
 
+  const setMessages = (newMessages) => {
+    setConversations(prev => ({
+      ...prev,
+      [activeConversationId]: {
+        ...prev[activeConversationId],
+        messages: typeof newMessages === 'function' 
+          ? newMessages(prev[activeConversationId].messages)
+          : newMessages,
+        title: prev[activeConversationId]?.title || 'New Conversation'
+      }
+    }));
+  };
+
+  const clearHistory = () => {
+    setMessages([]);
+  };
+
+  const clearError = () => setError(null);
+
   const value = {
-    messages,
+    messages: activeConversation.messages,
     setMessages,
+    clearHistory,
     isLoading,
     setIsLoading,
     error,
     setError,
-    clearError,
-    clearHistory,
+    clearError
   };
 
-  return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>;
+  return (
+    <ChatContext.Provider value={value}>
+      {children}
+    </ChatContext.Provider>
+  );
 }
 
 export function useChat() {
