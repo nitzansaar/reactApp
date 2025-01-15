@@ -7,7 +7,8 @@ const defaultSettings = {
   model: import.meta.env.VITE_DEFAULT_MODEL || 'gpt-3.5-turbo',
   temperature: parseFloat(import.meta.env.VITE_DEFAULT_TEMPERATURE) || 0.7,
   maxTokens: parseInt(import.meta.env.VITE_DEFAULT_MAX_TOKENS) || 2000,
-  theme: 'light'
+  theme: 'light',
+  contextLength: 10
 };
 
 export function SettingsProvider({ children }) {

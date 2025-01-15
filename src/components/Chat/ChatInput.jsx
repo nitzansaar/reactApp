@@ -52,7 +52,7 @@ function ChatInput() {
     setIsLoading(true);
 
     try {
-      const response = await sendMessage(input, settings);
+      const response = await sendMessage(input, settings, messages);
       setMessages(prev => [...prev, response]);
     } catch (error) {
       setError('Failed to send message. Please try again.');

@@ -8,6 +8,7 @@ import { useChat } from '../../context/ChatContext';
 import SettingsButton from '../Settings/SettingsButton';
 import SettingsPanel from '../Settings/SettingsPanel';
 import { useSettings } from '../../context/SettingsContext';
+import ContextIndicator from './ContextIndicator';
 
 const Container = styled.div`
   display: flex;
@@ -64,6 +65,7 @@ function ChatContainer() {
   return (
     <>
       <Container theme={currentTheme}>
+        <ContextIndicator />
         <ClearButton onClick={clearHistory}>Clear Chat</ClearButton>
         <SettingsButton />
         <MessagesContainer>

@@ -125,6 +125,19 @@ function SettingsPanel() {
             <option value="dark">Dark</option>
           </Select>
         </Section>
+
+        <Section>
+          <Label>Context Length</Label>
+          <Select
+            value={settings.contextLength}
+            onChange={(e) => updateSettings({ contextLength: parseInt(e.target.value) })}
+          >
+            <option value="5">5 messages</option>
+            <option value="10">10 messages</option>
+            <option value="15">15 messages</option>
+            <option value="20">20 messages</option>
+          </Select>
+        </Section>
       </Panel>
     </>
   );

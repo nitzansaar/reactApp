@@ -5,10 +5,24 @@ const openai = new OpenAI({
   dangerouslyAllowBrowser: true
 });
 
-export const sendMessage = async (message, settings) => {
+// Maximum number of messages to keep in context
+const MAX_CONTEXT_MESSAGES = 10;
+
+export const sendMessage = async (message, settings, messageHistory = []) => {
   try {
+    // Get the last N messages for context
+    const contextMessages = messageHistory
+      .slice(-MAX_CONTEXT_MESSAGES)
+      .map(msg => ({
+        role: msg.role,
+        content: msg.content
+      }));
+
+    // Add the current message
+    contextMessages.push({ role: "user", content: message });
+
     const completion = await openai.chat.completions.create({
-      messages: [{ role: "user", content: message }],
+      messages: contextMessages,
       model: settings.model,
       temperature: settings.temperature,
       max_tokens: settings.maxTokens,
